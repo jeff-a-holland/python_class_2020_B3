@@ -1,6 +1,7 @@
 import pickle
 import csv
 
+### Student created classes
 class Serializable():
     def dump(self, filename):
         # convert self object to a dict using vars method
@@ -45,7 +46,7 @@ class CSVMixin():
                 setattr(self, key, header_list[1:])
             return(self)
 
-
+### Instructor test classes
 class Book(Serializable):
     def __init__(self, title, author, price):
         self.title = title
