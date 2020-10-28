@@ -1,7 +1,7 @@
 # Python Weekly Exercise B3 2020, by Reuven Lerner
 Start date: Oct 27, 2020
 
-15 weeks of Python exercises, as described here:(https://store.lerner.co.il/wpe-b3)
+15 weeks of Python exercises, as described here: https://store.lerner.co.il/wpe-b3
 
 Topics include:
 
