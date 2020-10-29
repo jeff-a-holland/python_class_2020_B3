@@ -1,6 +1,10 @@
 import pytest, json
-from solution import Serializable, CSVMixin, JSONMixin
+from solution import Serializable, CSVMixin, JSONMixin, XMLMixin
 
+##############################################################################
+# Usage: run "pytest" in the local directory
+# Note: Assumes you have pytest installed. If not, run "pip install pytest".
+##############################################################################
 
 def test_no_mixin(tmp_path):
     class Book(Serializable):
@@ -63,3 +67,23 @@ def test_json_mixin(tmp_path):
     assert b.price == 100
 
     assert type(json.load(open(p, 'rb'))) == dict
+
+def test_xml_mixin(tmp_path):
+    class Book(XMLMixin, Serializable):
+        def __init__(self, title, author, price):
+            self.title = title
+            self.author = author
+            self.price = price
+
+        def __repr__(self):
+            return f"{self.title}, by {self.author}, for {self.price}"
+
+    b = Book('title', 'author', 100)
+    p = tmp_path / "hello.txt"
+    b.dump(p)
+
+    b.load(p)
+
+    assert b.title == 'title'
+    assert b.author == 'author'
+    assert int(b.price) == 100
