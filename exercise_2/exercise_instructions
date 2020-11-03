@@ -1,0 +1,6 @@
+For this week's exercise, I want you to implement "tr" (the Unix command) as a function that takes two strings, and returns a function that performs the translation on a string. In other words, we should be able to do the following:
+    vowels_to_y = tr('aeiou', 'y')
+    print(vowels_to_y('the quick brown fox jumps over the lazy dog'))
+
+and we should see:
+    thy qyyck brywn fyx jymps yvyr thy lxzy dyg
