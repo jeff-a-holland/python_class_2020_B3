@@ -7,12 +7,14 @@ def tr(str1, str2):
         raise TypeError('ERROR. The tr function requires two non-null arguments.')
 
     def translate(str3):
-        # create list containing str1 chars
+        # create lists containing string chars
         str1_list = list(str1)
         str2_list = list(str2)
         str3_list = list(str3)
 
         if len(str1_list) == len(str2_list):
+            # Enumerate str3_list so we know index of char that needs to be
+            # replaced with char from str1_list.
             for index, letter in enumerate(str3_list):
                 if letter in str1_list:
                     index_position = str1_list.index(letter)
@@ -25,6 +27,7 @@ def tr(str1, str2):
             # Determine how much shorter string2 is
             delta = len(str1_list) - len(str2_list)
             # Create copy of str2_list as it's mutable and need to pop last event
+            # for operating on str2_list later
             temp_str = str2_list.copy()
             str2_last_char = temp_str.pop()
             # Pad string2_list with last char until it matches cardinality of
