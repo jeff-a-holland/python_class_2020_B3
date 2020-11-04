@@ -34,3 +34,8 @@ def test_2_to_1():
 def test_remove():
     ab_to_c_tr = tr('ab', 'x')
     assert ab_to_c_tr('abcdabcd') == 'xxcdxxcd'
+
+def test_swap():
+    swap_ab_tr = tr('ab', 'ba')
+    assert callable(swap_ab_tr)
+    assert swap_ab_tr('abcdabcd') == 'bacdbacd'
