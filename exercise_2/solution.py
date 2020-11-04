@@ -22,12 +22,17 @@ def tr(str1, str2):
             return(str3)
 
         elif len(str1_list) > len(str2_list):
-            ## Code this section
+            # Determine how much shorted string2 is
             delta = len(str1_list) - len(str2_list)
+            # Create copy of str2_list as it's mutable and need to pop last event
             temp_str = str2_list.copy()
             str2_last_char = temp_str.pop()
+            # Pad string2_list with last char until it matches cardinality of
+            # string1_list
             str2_list.extend(str2_last_char * delta)
-
+            # DRY violation as repeating code for loop from above. Could put this
+            # section in its own function and call it above and below, but the
+            # complexity is not worth it.
             for index, letter in enumerate(str3_list):
                 if letter in str1_list:
                     index_position = str1_list.index(letter)
@@ -40,5 +45,5 @@ def tr(str1, str2):
             raise TypeError('ERROR. str1 cardinality less than str2. Exiting.')
     return translate
 
-vowels_to_c = tr('eq', 'ip')
+vowels_to_c = tr('eqz', 'ip')
 print(vowels_to_c('the quick brown fox jumps over the lazy dog'))
