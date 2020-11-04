@@ -4,7 +4,8 @@ import pytest
 from solution import tr
 
 ##############################################################################
-# Usage: run "pytest" in the local directory
+# Usage: run "pytest" in the local directory after renaming one of the two
+#        solutions to "solution.py".
 # Note: Assumes you have pytest installed. If not, run "pip install pytest".
 ##############################################################################
 
