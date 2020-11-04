@@ -9,16 +9,13 @@ def tr(str1, str2):
         raise TypeError('ERROR. The tr function requires two non-null arguments.')
 
     def translate(str3):
-        # Check if str3_list chars are in str2_list. If so, replace with str2,
-        # which is a single char.
+        # Check if str3_list chars are in str2_list. If so, replace with str2.
         str1_list = list(str1)
-        str3_list = list(str3)
-        for letter in str3_list:
-            if letter in str1_list:
-                # Use regex to replace letter
-                str3 = re.sub(rf'{letter}', str2, str3)
+        # Build regex_string with conditional OR's for each char in str1_list
+        regex_string='|'.join(str1_list)
+        str3 = re.sub(rf'{regex_string}', str2, str3)
         return(str3)
     return translate
 
-vowels_to_c = tr('aeiou', 'c')
+vowels_to_c = tr('eo', 'oe')
 print(vowels_to_c('The quick dog'))

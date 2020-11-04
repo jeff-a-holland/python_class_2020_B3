@@ -22,5 +22,5 @@ def tr(str1, str2):
         return(str3)
     return translate
 
-vowels_to_c = tr('aeiou', 'c')
+vowels_to_c = tr('eo', 'oe')
 print(vowels_to_c('The quick dog'))
