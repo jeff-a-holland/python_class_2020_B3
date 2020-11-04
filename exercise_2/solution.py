@@ -2,7 +2,7 @@
 
 def tr(str1, str2):
     # Test for null argument to the tr function.
-    # Throw a typeerror if one or both arguments are null.
+    # Throw a TypeError if one or both arguments are null.
     if str1 == '' or str2 == '':
         raise TypeError('ERROR. The tr function requires two non-null arguments.')
 
