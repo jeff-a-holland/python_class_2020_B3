@@ -22,7 +22,7 @@ def tr(str1, str2):
             return(str3)
 
         elif len(str1_list) > len(str2_list):
-            # Determine how much shorted string2 is
+            # Determine how much shorter string2 is
             delta = len(str1_list) - len(str2_list)
             # Create copy of str2_list as it's mutable and need to pop last event
             temp_str = str2_list.copy()
