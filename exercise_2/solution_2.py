@@ -1,4 +1,6 @@
-#!//Users/jeff/.pyenv/shims/python
+#!/Users/jeff/.pyenv/shims/python
+
+import re
 
 def tr(str1, str2):
     # Test for null argument to the tr function.
@@ -7,18 +9,14 @@ def tr(str1, str2):
         raise TypeError('ERROR. The tr function requires two non-null arguments.')
 
     def translate(str3):
-        # create list containing str1 chars
-        str1_list = list(str1)
-        # create list containing str3 chars
-        str3_list = list(str3)
-
         # Check if str3_list chars are in str2_list. If so, replace with str2,
         # which is a single char.
-        for index, letter in enumerate(str3_list):
+        str1_list = list(str1)
+        str3_list = list(str3)
+        for letter in str3_list:
             if letter in str1_list:
-                str3_list[index] = str2
-            # Combine updated str3_list chars and clobber str3 var to return
-            str3 = ''.join(str3_list)
+                # Use regex to replace letter
+                str3 = re.sub(rf'{letter}', str2, str3)
         return(str3)
     return translate
 
