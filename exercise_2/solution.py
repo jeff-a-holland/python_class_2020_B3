@@ -45,8 +45,9 @@ def tr(str1, str2):
             return(str3)
 
         else:
-            raise TypeError('ERROR. str1 cardinality less than str2. Exiting.')
+            raise TypeError('ERROR. Illegal call to tr function.'
+                            ' str1 cardinality less than str2. Exiting...')
     return translate
 
-vowels_to_c = tr('eiou', 'c')
+vowels_to_c = tr('aeiou', 'c')
 print(vowels_to_c('the quick brown fox jumps over the lazy dog'))
