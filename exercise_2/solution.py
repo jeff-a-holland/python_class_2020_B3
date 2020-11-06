@@ -15,13 +15,7 @@ def tr(str1, str2):
         if len(str1_list) == len(str2_list):
             # Enumerate str3_list so we know index of char that needs to be
             # replaced with char from str1_list.
-            for index, letter in enumerate(str3_list):
-                if letter in str1_list:
-                    index_position = str1_list.index(letter)
-                    str3_list[index] = str2_list[index_position]
-                # Combine updated str3_list chars and clobber str3 var to return
-                str3 = ''.join(str3_list)
-            return(str3)
+            pass
 
         elif len(str1_list) > len(str2_list):
             # Determine how much shorter string2 is
@@ -33,20 +27,18 @@ def tr(str1, str2):
             # Pad string2_list with last char until it matches cardinality of
             # string1_list
             str2_list.extend(str2_last_char * delta)
-            # DRY violation as repeating code for loop from above. Could put this
-            # section in its own function and call it above and below, but the
-            # complexity is not worth it.
-            for index, letter in enumerate(str3_list):
-                if letter in str1_list:
-                    index_position = str1_list.index(letter)
-                    str3_list[index] = str2_list[index_position]
-                # Combine updated str3_list chars and clobber str3 var to return
-                str3 = ''.join(str3_list)
-            return(str3)
 
         else:
             raise TypeError('ERROR. Illegal call to tr function.'
                             ' str1 cardinality less than str2. Exiting...')
+
+        for index, letter in enumerate(str3_list):
+            if letter in str1_list:
+                index_position = str1_list.index(letter)
+                str3_list[index] = str2_list[index_position]
+            # Combine updated str3_list chars and clobber str3 var to return
+            str3 = ''.join(str3_list)
+        return(str3)
     return translate
 
 vowels_to_c = tr('aeiou', 'c')
