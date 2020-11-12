@@ -29,5 +29,6 @@ def test_tar_to_zip(tmp_path, test_tarfile):
     assert len(list(tmp_path.glob('*.zip'))) == 1
 
     zf = zipfile.ZipFile(tmp_path / 'mytar.zip')
+    #zf = zipfile.ZipFile(tmp_path / 'output.zip')
     zf.extractall(path=tmp_path)
     assert len(list(tmp_path.glob('*.txt'))) == 5

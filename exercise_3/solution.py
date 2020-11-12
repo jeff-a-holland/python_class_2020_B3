@@ -14,7 +14,8 @@ def tar_to_zip(*inputfiles, **zip_path):
     file_status = str(os.path.exists(zippath))
     if file_status == 'False':
         print('Creating dir')
-        os.mkdir(str(zippath), 0o666)
+        os.mkdir(str(zippath))
+        os.chmod(str(zippath), 0o777)
     else:
         print('Dir already exists')
 
@@ -22,7 +23,7 @@ def tar_to_zip(*inputfiles, **zip_path):
         if tarfile.is_tarfile(inputfile):
             print (f'\n{inputfile} is a tarfile. Proceeding to untar it...')
             tf = tarfile.open(inputfile, 'r')
-            tf.extractall('./')
+            tf.extractall(zippath)
 
             file_path_str = str(inputfile)
             path_list = file_path_str.split('/')
@@ -59,4 +60,4 @@ def tar_to_zip(*inputfiles, **zip_path):
         else:
             print(f'\nERROR. {inputfile} is NOT a tarfile. Skipping this file...')
 
-#tar_to_zip('test.tar', zippath='./temp')
+tar_to_zip('test.tar', zippath='./temp')
