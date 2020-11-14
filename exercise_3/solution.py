@@ -79,4 +79,5 @@ def tar_to_zip(*inputfiles, **zip_path):
 #tar_to_zip('test.tar', zippath='./temp')
 #tar_to_zip('test.tar', 'test2.tar', zippath='./temp')
 #tar_to_zip('test.tar', 'test2.tar', zippath='/tmp/test')
-tar_to_zip('test.tar', 'test2.tar', 'test3.tar', zippath='/tmp/test')
+#tar_to_zip('test.tar', 'test2.tar', 'test3.tar', zippath='/tmp/test')
+tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', zippath='/tmp/test')
