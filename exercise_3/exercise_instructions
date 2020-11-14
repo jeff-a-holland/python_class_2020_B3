@@ -8,5 +8,6 @@ I'm going to expect that in the current directory, we'll then have three files:
 as the respective tarfiles, but in zip format, instead.
 
 If you get a file that cannot be untar'ed for whatever reason, then print an error
-or warning message, but continue.  You can also pass a value to the "zippath" 
-parameter, indicating where you want the zipfile to be created.
+or warning message, but continue.  You can also pass a value to the "zippath"
+parameter, indicating where you want the zipfile to be created. If you can write
+the zip file to a staging directory, such as /tmp, even better.

@@ -7,11 +7,23 @@ import os
 import shutil
 
 def tar_to_zip(*inputfiles, **zip_path):
+    """Supply valid tarballs as input files to be untar'd and then zipped up.
+       Supply a staging directory for the tarballs and zip files. Do not use
+       the local directory"""
 
     # Get path to create output zip files in from named kwarg
     for path in zip_path.values():
         zippath = path
-        print (f'\nzippath named argument is: {zippath}')
+        cwd = os.getcwd()
+        if str(zippath) == '.' or str(zippath) == cwd:
+            print (f'\nzippath named argument is: {zippath}\n\nDo not untar and zip '
+                    'files to the local directory.\nUse /tmp or another staging '
+                    'directory besides the local directory where solution.py is.'
+                    '\nExiting...\n')
+            exit()
+
+        else:
+            print (f'\nzippath named argument is: {zippath}')
 
     # Determine if directory where we'll write zip files to exists.
     # If not, create it and chmod it 777.
@@ -81,4 +93,5 @@ def tar_to_zip(*inputfiles, **zip_path):
 #tar_to_zip('test.tar', 'test2.tar', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', zippath='/tmp/test')
+#tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='.')
 tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp/test')
