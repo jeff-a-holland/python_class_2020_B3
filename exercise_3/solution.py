@@ -42,11 +42,12 @@ def tar_to_zip(*inputfiles, **zip_path):
             tf.extractall(zippath)
 
             # We'll name our zip file based on the root of the tarball name.
-            # Parse out the root of the name to "tar_root".
+            # Parse out the root of the name to "tar_root", truncating .tar or
+            # .tar.gz, or .tar.bz2
             file_path_str = str(inputfile)
             path_list = file_path_str.split('/')
             tar_filename = path_list.pop()
-            tar_root = re.sub('\\.tar', '', tar_filename)
+            tar_root = re.sub('\\.tar(?:\\.bz2|\\.gz)?', '', tar_filename)
 
             # Ignore "dot" files, such as "._" created by OSX.
             # Also ignore .tar files for our .zip file, as well as previous
