@@ -16,11 +16,22 @@ def tar_to_zip(*inputfiles, **zip_path):
         zippath = path
         cwd = os.getcwd()
         if str(zippath) == '.' or str(zippath) == cwd:
-            print (f'\nzippath named argument is: {zippath}\n\nDo not untar and zip '
-                    'files to the local directory.\nUse /tmp or another staging '
-                    'directory besides the local directory where solution.py is.'
-                    '\nExiting...\n')
+            print (f'\nzippath named argument is: {zippath}\n\n  Do not untar and zip '
+                    'files to the local directory.\n  Use a subdirectory in /tmp '
+                    'or a directory besides the local directory where solution.py is.'
+                    '\n\nExiting...\n')
             exit()
+
+        elif str(zippath) == '/tmp':
+            print (f'\nzippath named argument is: {zippath}\n\n  Do not untar and zip '
+                    'to /tmp, use a subdir under /tmp, such as /tmp/test.'
+                    '\n\nExiting...\n')
+            exit()
+
+        elif str(zippath) == '':
+            zippath = '/tmp/test'
+            print ('\nNo zip_path argument passed. '
+                      f'Setting zippath named argument to: {zippath}')
 
         else:
             print (f'\nzippath named argument is: {zippath}')
@@ -95,4 +106,5 @@ def tar_to_zip(*inputfiles, **zip_path):
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='.')
+#tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp')
 tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp/test')
