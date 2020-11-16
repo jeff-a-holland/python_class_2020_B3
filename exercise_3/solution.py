@@ -17,8 +17,8 @@ def tar_to_zip(*inputfiles, **zip_path):
         zippath = path
         cwd = os.getcwd()
         if str(zippath) == '.' or str(zippath) == cwd or str(zippath) == '/tmp':
-            raise ValueError(f'\nzippath named argument is: {zippath}\n\n  Do not untar and '
-                    'zip files to the local directory or /tmp.\n  Use a '
+            raise ValueError(f'\nzippath named argument is: {zippath}\n\n  Do not '
+                    ' untar zip files to the local directory or /tmp.\n  Use a '
                     'local subdirectory or a subdirectory in /tmp\n\nExiting...\n')
 
         elif str(zippath) == '':
@@ -99,6 +99,6 @@ def tar_to_zip(*inputfiles, **zip_path):
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='.')
-tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='')
+#tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp')
-#tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp/test')
+tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp/test')
