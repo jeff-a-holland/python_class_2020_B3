@@ -9,7 +9,7 @@ import shutil
 def tar_to_zip(*inputfiles, **zip_path):
     """Supply valid tarballs as input files to be untar'd and then zipped up.
        Supply a staging directory for the tarballs and zip files. Do not use
-       the local directory. Use a new local subdirectory, or  a  new
+       the local directory. Use a new local subdirectory, or a new
        subdirectory in /tmp."""
 
     # Get path to create output zip files in from named kwarg
@@ -17,14 +17,13 @@ def tar_to_zip(*inputfiles, **zip_path):
         zippath = path
         cwd = os.getcwd()
         if str(zippath) == '.' or str(zippath) == cwd or str(zippath) == '/tmp':
-            print (f'\nzippath named argument is: {zippath}\n\n  Do not untar and '
+            raise ValueError(f'\nzippath named argument is: {zippath}\n\n  Do not untar and '
                     'zip files to the local directory or /tmp.\n  Use a '
                     'local subdirectory or a subdirectory in /tmp\n\nExiting...\n')
-            exit()
 
         elif str(zippath) == '':
             zippath = '/tmp/zipped'
-            print ('\nNo zip_path argument passed.\n'
+            print('\nNo zip_path argument passed.\n'
                       f'Setting zippath named argument to: {zippath}')
 
         else:
@@ -100,6 +99,6 @@ def tar_to_zip(*inputfiles, **zip_path):
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', zippath='/tmp/test')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='.')
-#tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='')
+tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='')
 #tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp')
-tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp/test')
+#tar_to_zip('test.tar', 'test2.tar', 'test3.tar', 'test4.tar.bz2', 'test5.tar.gz', zippath='/tmp/test')
