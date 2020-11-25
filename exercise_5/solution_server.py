@@ -1,10 +1,11 @@
 #!/Users/jeff/.pyenv/shims/python
 
 import socket
-import sys
 import re
 
 def get_client_connection(server):
+    """Server program get_client_connection function. Prints out the client
+       command if it was valid, otherwise print non-fatal error to STDOUT."""
     try:
         socket_object, client_ip = server.accept()
         with socket_object:
@@ -25,7 +26,7 @@ def get_client_connection(server):
                         temp_list =list(client_message.split(' '))
                         cntr_value = temp_list[1]
                         try:
-                            if isinstance(int(cntr_value), int) == True:
+                            if isinstance(int(cntr_value), int):
                                 cntr_value = int(cntr_value)
                                 print (cntr_value + 1)
                         except ValueError as e:
@@ -56,6 +57,8 @@ def get_client_connection(server):
         raise SystemExit(f'Error getting client connection: {e}')
 
 def run_server():
+    """Server program run_server function. Calls get_client_connection function
+       and supplies the socket object 'server' to it."""
     server_ip = socket.gethostbyname('localhost')
     listening_port = 9999
     print(f'\n  Binding socket to {server_ip} on port: {listening_port}\n  '
@@ -65,20 +68,24 @@ def run_server():
     while True:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+                # SO_REUSEADDR flag tells the kernel to reuse a local socket
+                # in TIME_WAIT state, without waiting for its natural timeout
+                # to expire.
                 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 server.bind((server_ip, listening_port))
                 server.listen()
-                if mssg_flag == False:
-                    print(f'  Successful socket connection on port {listening_port}\n')
+                if not mssg_flag:
+                    print('  Successful socket connection on port'
+                          f'{listening_port}\n')
                     print('  Now accepting client messages!!\n')
                     mssg_flag = True
                 get_client_connection(server)
 
         except socket.error as e:
-            #raise SystemExit(f'\n  Error creating local socket: {e}\n  Exiting...\n')
             print('Client already bound to socket')
 
 def main():
+    """Server program main function. Calls run_server function."""
     run_server()
 
 if __name__ == "__main__":
