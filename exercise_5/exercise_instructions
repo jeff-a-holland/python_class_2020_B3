@@ -1,0 +1,18 @@
+The idea here is to create two functions. The first will listen on a socket
+(on port 9999), and wait for connections to it.  The second will connect to
+the server on port 9999.
+
+The client can send one of three messages:
+
+- "say".  The "say" message is followed by a string, which the server should
+then repeat back.
+
+- "increment".  The "increment" message is followed by an integer.  The server
+responds with 1 more than that integer.
+
+- "bye".  The "bye" message indicates that we want to hang up.  The server
+responds with "bye", and then disconnects.
+
+Any other message will result in an error message being sent from the server,
+such as "I don't understand."  Trying to increment a non-integer will also
+result in an error message being sent from the server.
