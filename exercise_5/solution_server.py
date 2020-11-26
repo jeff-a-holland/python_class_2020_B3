@@ -20,7 +20,6 @@ def get_client_connection(server):
                         print(client_message,'\n')
                         socket_object.close()
                         exit()
-                        break
 
                     elif client_message_lowercase.startswith('increment'):
                         temp_list =list(client_message.split(' '))
