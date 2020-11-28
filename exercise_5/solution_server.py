@@ -75,7 +75,7 @@ def run_server():
                 server.listen()
                 if not mssg_flag:
                     print('  Successful socket connection on port'
-                          f'{listening_port}\n')
+                          f' {listening_port}\n')
                     print('  Now accepting client messages!!\n')
                     mssg_flag = True
                 get_client_connection(server)
