@@ -8,7 +8,6 @@ class RunServer(object):
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
-        self.ip_host_list = [ip, port]
 
     def get_client_connection(self, server):
         """RunServer get_client_connection method. Prints out the client
@@ -64,8 +63,8 @@ class RunServer(object):
 
     def run_server(self, s):
         """Server program run_server method."""
-        server_ip = self.ip_host_list[0]
-        server_port = self.ip_host_list[1]
+        server_ip = self.ip
+        server_port = self.port
         print(f'\n  Binding socket to {server_ip} on port: {server_port}\n  '
                'Wait one moment, please...')
 
