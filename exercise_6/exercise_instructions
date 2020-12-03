@@ -1,0 +1,9 @@
+On the server, you'll again have a number of functions defined, and a dict seems
+like the best place to store them. But instead of the user sending commands which
+correspond to functions, the user will name the function that should be invoked.
+
+The response from the server will be the function's actual output, which can be
+any built-in data type or combination thereof. That output will be pickle'd, and
+the pickle output (a string) will then be sent to the client.  The client will
+then un-pickle the response from the server, displaying not just the string
+version of the object but also its type (for easier debugging).
