@@ -17,6 +17,7 @@ class RunClient(object):
            object and the argv_list to process and send to the server for it to
            process and echo back, or send error information back via STDOUT.""
         """
+        self.client = client
         self.argv_list.pop(0)
         if len(self.argv_list) <= 1 and str.lower(self.argv_list[0]) != 'bye':
             print('\n  ERROR. No argument(s) supplied.\n  Enter the name of the'
@@ -67,6 +68,7 @@ class RunClient(object):
            to the server and sends socket object 'client' to the
            send_client_message function.
         """
+        self.c = c
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
                 server_ip = self.ip
