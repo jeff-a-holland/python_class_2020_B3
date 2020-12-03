@@ -6,6 +6,7 @@ import pickle
 import codecs
 
 class RunServer(object):
+    """RunServer Class"""
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
@@ -33,42 +34,6 @@ class RunServer(object):
                             pickle = s.process_message(s, client_message_lowercase)
                             socket_object.sendall(pickle)
 
-                        """
-                        elif client_message_lowercase.startswith('square_int'):
-                            temp_list = list(client_message.split(' '))
-                            int_value = temp_list[1]
-                            try:
-                                if isinstance(int(int_value), int):
-                                    pass
-                            except ValueError as e:
-                                print(f'\n  Non-fatal ValueError exception: {e}\n'
-                                      '  The "square_int" option only takes '
-                                      'integers. Please try again.\n')
-
-                        elif client_message_lowercase.startswith('reverse_words'):
-                            client_message = re.sub('^[a-zA-z]* {1,}', '', client_message)
-                            if re.match(r"[-+]?\d+$", client_message) is None:
-                                pass
-                            else:
-                                print('\n  Non-fatal ValueError exception: '
-                                      f'The int "{client_message}" is not a string.\n'
-                                      '  The "reverse_words" option only takes'
-                                      ' a string of words. Please try again.\n')
-
-                        elif not client_message_lowercase.startswith('reverse_words') or
-                             not client_message_lowercase.startswith('square_int'):
-                            print ('\n  Invalid function name and arg format '
-                                   'sent from client!!\n'
-                                   f'  Function and arg was: {client_message}\n\n'
-                                   '   Valid functions and their args are:\n'
-                                   '   (1) translate_word <string>  (e.g. translate_word hola)\n'
-                                   '   OR\n'
-                                   '   (2) square_int <interger>  (e.g. square_int 5)\n'
-                                   '   OR\n'
-                                   '   bye (e.g. bye or Bye)\n\n'
-                                   '  Try again, please\n')
-                        """
-
                     else:
                         break
 
@@ -77,6 +42,10 @@ class RunServer(object):
         return client_message_lowercase
 
     def process_message(self, s, command):
+        """process_message method. Takes client message with the name of the
+        function to run and looks up that function name in a dict along with
+        the argument(s) supplied and calls the appropriate method based on the
+        function name"""
         self.command = command
         self.s = s
         print(f'Client message received:\n   {command}')
@@ -94,6 +63,9 @@ class RunServer(object):
                 return pickled_obj
 
     def square_int(self, arg):
+        """square_int method. Squares the int supplied and returns a pickled
+        dict to the client with both the int that was squared and the squared
+        value of the int."""
         self.arg = arg
         arg = int(arg[0])
         arg_squared = arg * arg
@@ -102,17 +74,21 @@ class RunServer(object):
                'and is of type:', type(arg_dict))
         pickled_obj = pickle.dumps(arg_dict)
         print(f'\nPickled object is:\n   {pickled_obj}',
-               '\n\nSending pickled object back to the client now...')
+               '\n\nSending pickled object back to the client now...\n'
+               '######################################################')
         return pickled_obj
 
     def reverse_words(self, arg):
+        """reverse_words method. Reverses the word string and returns a pickled
+        list to the client."""
         self.arg = arg
         arg.reverse()
         print(f'\nReversed list object is:\n   {arg}',
                'and is of type:', type(arg))
         pickled_obj = pickle.dumps(arg)
         print(f'\nPickled object is:\n   {pickled_obj}',
-               '\n\nSending pickled object back to the client now...')
+               '\n\nSending pickled object back to the client now...\n'
+               '######################################################')
         return pickled_obj
 
     def run_server(self, s):
@@ -135,7 +111,9 @@ class RunServer(object):
                     if not mssg_flag:
                         print('  Successful socket connection on port'
                               f' {server_port}\n')
-                        print('  Now accepting client messages!!\n')
+                        print('  Now accepting client messages!!\n'
+                              '###################################'
+                              '###################')
                         mssg_flag = True
                     s.get_client_connection(s, self.server)
 
