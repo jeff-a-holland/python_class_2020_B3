@@ -3,30 +3,37 @@
 import socket
 import re
 import pickle
+import codecs
 
 class RunServer(object):
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
 
-    def get_client_connection(self, server):
+    def get_client_connection(self, s, server):
         """RunServer get_client_connection method. Prints out the client
            command if it was valid, otherwise print non-fatal error to STDOUT."""
+        self.s = s
+        self.server = server
         try:
             socket_object, client_ip = server.accept()
             with socket_object:
                 while True:
                     data = socket_object.recv(1024)
+                    client_message = (str(data.decode('utf-8')))
+                    client_message_lowercase = (str.lower(data.decode('utf-8')))
                     if data:
-                        socket_object.sendall(b'111')
-                        client_message = (str(data.decode('utf-8')))
-                        client_message_lowercase = (str.lower(data.decode('utf-8')))
-
                         if client_message_lowercase == 'bye':
                             print(client_message)
+                            socket_object.sendall(data)
                             socket_object.close()
                             exit()
 
+                        else:
+                            pickle = s.process_message(s, client_message_lowercase)
+                            socket_object.sendall(pickle)
+
+                        """
                         elif client_message_lowercase.startswith('square_int'):
                             temp_list = list(client_message.split(' '))
                             int_value = temp_list[1]
@@ -38,17 +45,18 @@ class RunServer(object):
                                       '  The "square_int" option only takes '
                                       'integers. Please try again.\n')
 
-                        elif client_message_lowercase.startswith('translate_word'):
+                        elif client_message_lowercase.startswith('reverse_words'):
                             client_message = re.sub('^[a-zA-z]* {1,}', '', client_message)
                             if re.match(r"[-+]?\d+$", client_message) is None:
                                 pass
                             else:
                                 print('\n  Non-fatal ValueError exception: '
                                       f'The int "{client_message}" is not a string.\n'
-                                      '  The "translate_word" option only takes'
-                                      ' a string. Please try again.\n')
+                                      '  The "reverse_words" option only takes'
+                                      ' a string of words. Please try again.\n')
 
-                        else:
+                        elif not client_message_lowercase.startswith('reverse_words') or
+                             not client_message_lowercase.startswith('square_int'):
                             print ('\n  Invalid function name and arg format '
                                    'sent from client!!\n'
                                    f'  Function and arg was: {client_message}\n\n'
@@ -59,6 +67,7 @@ class RunServer(object):
                                    '   OR\n'
                                    '   bye (e.g. bye or Bye)\n\n'
                                    '  Try again, please\n')
+                        """
 
                     else:
                         break
@@ -70,26 +79,41 @@ class RunServer(object):
     def process_message(self, s, command):
         self.command = command
         self.s = s
-        print(f'Client message received: {command}')
+        print(f'Client message received:\n   {command}')
         command_list = list(command.split(' '))
-        function_name = command_list[0]
-        function_arg = command_list[1]
-        command_dict = {'translate_word': 'translate_word',
+        function_name = command_list.pop(0)
+        function_arg = command_list
+        command_dict = {'reverse_words': 'reverse_words',
                         'square_int': 'square_int'}
 
-        print('Server running class method (function) with arg as follows: '
-              f'{command_dict[function_name]}({function_arg})')
+        print('\nServer calling class method (function) with arg as follows:\n'
+              f'   {command_dict[function_name]}({function_arg})')
         for key, value in command_dict.items():
             if function_name == key:
-                getattr(s, value)(function_arg)
+                pickled_obj = getattr(s, value)(function_arg)
+                return pickled_obj
 
     def square_int(self, arg):
         self.arg = arg
-        pickled_obj = pickle.dumps(arg)
+        arg = int(arg[0])
+        arg_squared = arg * arg
+        arg_dict = {arg: arg_squared}
+        print(f'\nSquared int dict object is:\n   {arg_dict}',
+               'and is of type:', type(arg_dict))
+        pickled_obj = pickle.dumps(arg_dict)
+        print(f'\nPickled object is:\n   {pickled_obj}',
+               '\n\nSending pickled object back to the client now...')
+        return pickled_obj
 
-    def translate_word(self, arg):
+    def reverse_words(self, arg):
         self.arg = arg
+        arg.reverse()
+        print(f'\nReversed list object is:\n   {arg}',
+               'and is of type:', type(arg))
         pickled_obj = pickle.dumps(arg)
+        print(f'\nPickled object is:\n   {pickled_obj}',
+               '\n\nSending pickled object back to the client now...')
+        return pickled_obj
 
     def run_server(self, s):
         """Server program run_server method."""
@@ -113,8 +137,7 @@ class RunServer(object):
                               f' {server_port}\n')
                         print('  Now accepting client messages!!\n')
                         mssg_flag = True
-                    returned_client_message = s.get_client_connection(self.server)
-                    s.process_message(s, returned_client_message)
+                    s.get_client_connection(s, self.server)
 
             except socket.error as e:
                 print('Client already bound to socket')

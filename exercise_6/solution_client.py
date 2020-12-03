@@ -4,6 +4,7 @@ import socket
 import sys
 import re
 import pickle
+import codecs
 
 class RunClient(object):
     """RunClient class for module"""
@@ -18,33 +19,54 @@ class RunClient(object):
            process and echo back, or send error information back via STDOUT.""
         """
         self.argv_list.pop(0)
-        if len(self.argv_list) > 2:
-            print('\n   Too many arguments supplied.\n   Enter the name of the '
-                  'function to run on the server and one argument of the '
-                  'proper type.\n')
+        if len(self.argv_list) <= 1 and str.lower(self.argv_list[0]) != 'bye':
+            print('\n   No argument(s) supplied.\n   Enter the name of the '
+                  'function to run on the server and at least\n   one argument '
+                  'of the proper type, depending on the function name '
+                  'supplied.\n   Please try again.\n')
+            exit()
 
-        elif self.argv_list[0] == 'translate_word' and \
+        elif self.argv_list[0] == 'reverse_words' and \
                          re.match(r"[-+]?\d+$", self.argv_list[1]) is not None:
-            print('\n  The function name translate_word requires a string.'
-                  ' Please try again.\n')
+            print('\n  The function name "reverse_words" requires a string of '
+                  'words.\n  Please try again.\n')
+            exit()
 
         elif self.argv_list[0] == 'square_int' and \
                              re.match(r"[-+]?\d+$", self.argv_list[1]) is None:
             print('\n  The function name square_int requires an int.'
-                  ' Please try again.\n')
+                  '\n Please try again.\n')
+            exit()
 
-        elif self.argv_list[0] != 'square_int' and self.argv_list[0] != 'translate_word':
-            print('\n  That function does not exist on the server. Please try again.\n')
+        elif self.argv_list[0] == 'square_int' and len(self.argv_list) > 2:
+            print('\n  The function name square_int only takes one int as an'
+                  ' argument.\n  Please try again.\n')
+            exit()
+
+        elif self.argv_list[0] != 'square_int' and \
+             self.argv_list[0] != 'reverse_words' and \
+             self.argv_list[0] != 'bye':
+            print('\n  That function does not exist on the server.'
+                  '\n  Please try again.\n')
+            exit()
 
         argv_str = ' '.join(self.argv_list)
         message = argv_str.encode('utf8')
         client.sendall(message)
-        print(str(client.recv(4096), 'utf-8'))
+
+        if self.argv_list[0] != 'bye':
+            pickled_object = client.recv(4096)
+            unpickled_object = pickle.loads(pickled_object)
+            print('\n  Unpickled Object type:', type(unpickled_object))
+            print(f'  Unpickled Object: {unpickled_object}\n')
+        else:
+            print(str(client.recv(4096), 'utf-8'))
+
 
     def run_client(self, c):
         """Client run_client method. Starts up client socket connection
-           to the server and sends socket object 'client' to the send_client_message
-           function.
+           to the server and sends socket object 'client' to the
+           send_client_message function.
         """
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
@@ -63,18 +85,19 @@ def main():
        server is started. Valid arguments are the name of a function to invoke
        and it's argument, or, the command 'bye' to end the connection to the
        server. Functions and their arg are:
-       (1) translate_word <string>
+       (1) reverse_words <string of words>
        OR
        (2) square_int <interger>
 
        The server will respond with the a the output of the server's function by
        that name, which will be pickled and of a data type defined in the
-       function. For example, "translate_word hola" will return a pickled list
-       with the values "hola" and "hello", and square_int will return a
-       pickled dict with the key "5" and the value "25".
+       function. For example, "reverse_words good morning" will return a pickled
+       list ['morning', 'good'], and square_int will return the pickled dict
+       {5: 25}.
 
-       Invalid arguments will be flagged as non-fatal errors logged to STDOUT
-       and the program will continue.
+       Invalid arguments will be flagged as fatal errors and the client will
+       exit and a message will be logged to STDOUT. The server will continue
+       to listen for proper client messages on port 9999/TCP.
    """
     argv_list = sys.argv
     c = RunClient(argv_list, '127.0.0.1', 9999)
