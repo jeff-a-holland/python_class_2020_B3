@@ -20,33 +20,33 @@ class RunClient(object):
         """
         self.argv_list.pop(0)
         if len(self.argv_list) <= 1 and str.lower(self.argv_list[0]) != 'bye':
-            print('\n   No argument(s) supplied.\n   Enter the name of the '
-                  'function to run on the server and at least\n   one argument '
+            print('\n  ERROR. No argument(s) supplied.\n  Enter the name of the'
+                  ' function to run on the server and at least\n  one argument '
                   'of the proper type, depending on the function name '
-                  'supplied.\n   Please try again.\n')
+                  'supplied.\n  Please try again.\n')
             exit()
 
         elif self.argv_list[0] == 'reverse_words' and \
                          re.match(r"[-+]?\d+$", self.argv_list[1]) is not None:
-            print('\n  The function name "reverse_words" requires a string of '
-                  'words.\n  Please try again.\n')
+            print('\n  ERROR. The function name "reverse_words" requires a'
+                  ' string of words.\n  Please try again.\n')
             exit()
 
         elif self.argv_list[0] == 'square_int' and \
                              re.match(r"[-+]?\d+$", self.argv_list[1]) is None:
-            print('\n  The function name square_int requires an int.'
-                  '\n Please try again.\n')
+            print('\n  ERROR. The function name square_int requires an int.'
+                  '\n  Please try again.\n')
             exit()
 
         elif self.argv_list[0] == 'square_int' and len(self.argv_list) > 2:
-            print('\n  The function name square_int only takes one int as an'
-                  ' argument.\n  Please try again.\n')
+            print('\n  ERROR. The function name square_int only takes one int'
+                  ' as an argument.\n  Please try again.\n')
             exit()
 
         elif self.argv_list[0] != 'square_int' and \
              self.argv_list[0] != 'reverse_words' and \
-             self.argv_list[0] != 'bye':
-            print('\n  That function does not exist on the server.'
+             str.lower(self.argv_list[0]) != 'bye':
+            print('\n  ERROR. That function does not exist on the server.'
                   '\n  Please try again.\n')
             exit()
 
@@ -54,7 +54,7 @@ class RunClient(object):
         message = argv_str.encode('utf8')
         client.sendall(message)
 
-        if self.argv_list[0] != 'bye':
+        if str.lower(self.argv_list[0]) != 'bye':
             pickled_object = client.recv(4096)
             unpickled_object = pickle.loads(pickled_object)
             print('\n  Unpickled Object type:', type(unpickled_object))
@@ -83,9 +83,9 @@ def main():
     """Client program main. Instantiates RunClient object and then calls the
        run_client method, which calls send_client_message method. Run after
        server is started. Valid arguments are the name of a function to invoke
-       and it's argument, or, the command 'bye' to end the connection to the
+       and its argument(s), or, the command 'bye' to end the connection to the
        server. Functions and their arg are:
-       (1) reverse_words <string of words>
+       (1) reverse_words <string of space delimited words>
        OR
        (2) square_int <interger>
 

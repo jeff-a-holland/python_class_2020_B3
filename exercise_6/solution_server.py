@@ -25,13 +25,13 @@ class RunServer(object):
                     client_message_lowercase = (str.lower(data.decode('utf-8')))
                     if data:
                         if client_message_lowercase == 'bye':
-                            print(client_message)
+                            print(client_message,'\n')
                             socket_object.sendall(data)
                             socket_object.close()
                             exit()
 
                         else:
-                            pickle = s.process_message(s, client_message_lowercase)
+                            pickle = s.process_message(s, client_message)
                             socket_object.sendall(pickle)
 
                     else:
@@ -74,8 +74,8 @@ class RunServer(object):
                'and is of type:', type(arg_dict))
         pickled_obj = pickle.dumps(arg_dict)
         print(f'\nPickled object is:\n   {pickled_obj}',
-               '\n\nSending pickled object back to the client now...\n'
-               '######################################################')
+               '\n\nSending pickled object back to the client now...\n\n'
+               '######################################################\n')
         return pickled_obj
 
     def reverse_words(self, arg):
@@ -87,8 +87,8 @@ class RunServer(object):
                'and is of type:', type(arg))
         pickled_obj = pickle.dumps(arg)
         print(f'\nPickled object is:\n   {pickled_obj}',
-               '\n\nSending pickled object back to the client now...\n'
-               '######################################################')
+               '\n\nSending pickled object back to the client now...\n\n'
+               '######################################################\n')
         return pickled_obj
 
     def run_server(self, s):
@@ -113,7 +113,7 @@ class RunServer(object):
                               f' {server_port}\n')
                         print('  Now accepting client messages!!\n'
                               '###################################'
-                              '###################')
+                              '###################\n')
                         mssg_flag = True
                     s.get_client_connection(s, self.server)
 
