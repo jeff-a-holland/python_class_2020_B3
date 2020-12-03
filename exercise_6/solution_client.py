@@ -4,7 +4,6 @@ import socket
 import sys
 import re
 import pickle
-import codecs
 
 class RunClient(object):
     """RunClient class for module"""

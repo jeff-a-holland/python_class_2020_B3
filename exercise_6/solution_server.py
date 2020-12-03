@@ -3,7 +3,6 @@
 import socket
 import re
 import pickle
-import codecs
 
 class RunServer(object):
     """RunServer Class"""
