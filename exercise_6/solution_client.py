@@ -60,7 +60,7 @@ class RunClient(object):
             print('\n  Unpickled Object type:', type(unpickled_object))
             print(f'  Unpickled Object: {unpickled_object}\n')
         else:
-            print(str(client.recv(4096), 'utf-8'))
+            print(str(client.recv(4096), 'utf-8'),'\n')
 
 
     def run_client(self, c):
