@@ -6,6 +6,7 @@ import pickle
 import os
 import sys
 from io import StringIO
+import ast
 
 class RunServer(object):
     """RunServer Class"""
@@ -91,6 +92,10 @@ class RunServer(object):
                 exec(value, {}, {'arg': arg})
                 sys.stdout = old_stdout
                 rv = redirected_output.getvalue()
+                if rv.startswith('{'):
+                    rv = ast.literal_eval(rv)
+                print(type(rv))
+                print(rv)
                 pickled_obj = pickle.dumps(rv)
                 print(f'Pickled object is:\n   {pickled_obj}',
                        '\n\nSending pickled object back to the client now...\n\n'
