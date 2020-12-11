@@ -7,34 +7,6 @@ import os
 import sys
 from io import StringIO
 
-class ExecFunction(object):
-    def __init__(self):
-        pass
-
-    def parse_funcs(self):
-        ####################
-        # Read server_func*.py files in the local directory and add their
-        # contents to command_dict with name of function as key, and a string
-        # of the function contents.
-        command_dict = {}
-        func_name = ''
-        temp_str = ''
-        for file in os.listdir('.'):
-            if file.startswith('server_func_'):
-                func_name = re.sub('^server_func_', '', file)
-                func_name = re.sub('\.py$', '', func_name)
-                with open(file, 'r') as fh:
-                    temp_str = ''
-                    for line in fh.readlines():
-                        if line.startswith('def '):
-                            temp_str = temp_str + line
-                        elif not line.startswith('def '):
-                            temp_str = temp_str + line
-                    command_dict[func_name] = temp_str
-                temp_str = ''
-                func_name = ''
-        return command_dict
-
 class RunServer(object):
     """RunServer Class"""
     def __init__(self, ip, port):
@@ -81,61 +53,45 @@ class RunServer(object):
         print(f'Client message received:\n   {command}')
         command_list = list(command.split(' '))
         function_name = command_list.pop(0)
-        function_arg = command_list
+        arg = command_list
 
         ####################
         # Read server_func*.py files in the local directory and add their
         # contents to command_dict with name of function as key, and a string
         # of the function contents.
-        # command_dict = {}
-        # func_name = ''
-        # temp_str = ''
-        # for file in os.listdir('.'):
-        #     if file.startswith('server_func_'):
-        #         func_name = re.sub('^server_func_', '', file)
-        #         func_name = re.sub('\.py$', '', func_name)
-        #         with open(file, 'r') as fh:
-        #             temp_str = ''
-        #             for line in fh.readlines():
-        #                 if line.startswith('def '):
-        #                     temp_str = temp_str + line
-        #                 elif not line.startswith('def '):
-        #                     temp_str = temp_str + line
-        #             command_dict[func_name] = temp_str
-        #         temp_str = ''
-        #         func_name = ''
-        #for keys, values in command_dict.items():
-        #    print(keys)
-        #    print(values)
-        #    print('\n')
-
-        ####################
-        #command_dict = {'reverse_words': 'reverse_words',
-        #                'square_int': 'square_int'}
+        command_dict = {}
+        func_name = ''
+        temp_str = ''
+        for file in os.listdir('.'):
+            if file.startswith('server_func_'):
+                func_name = re.sub('^server_func_', '', file)
+                func_name = re.sub('\.py$', '', func_name)
+                with open(file, 'r') as fh:
+                    temp_str = ''
+                    for line in fh.readlines():
+                        if line.startswith('def '):
+                            temp_str = temp_str + line
+                        elif not line.startswith('def '):
+                            temp_str = temp_str + line
+                    command_dict[func_name] = temp_str
+                temp_str = ''
+                func_name = ''
 
         print('\nServer calling class method (function) with arg as follows:\n'
               #f'   {command_dict[function_name]}({function_arg})')
-              f'   {function_name}({function_arg})')
+              f'   {function_name}({arg})')
 
-        ef = ExecFunction()
-        command_dict2 = ef.parse_funcs()
-
-        for key, value in command_dict2.items():
+        for key, value in command_dict.items():
             if function_name == key:
-                #pickled_obj = exec(value, {"__builtins__":getattr}, {'s': function_arg})
-                #pickled_obj = getattr(s, value)(function_arg)
-                print(function_arg)
-
                 old_stdout = sys.stdout
                 redirected_output = sys.stdout = StringIO()
-                #exec(value, {'square_int': square_int}, {'arg': function_arg})
-                #exec(value, {'arg': function_arg})
-                exec(value)
+                exec(value, {}, {'arg': arg})
                 sys.stdout = old_stdout
                 rv = redirected_output.getvalue()
-                print(f'rv is: {rv}')
                 pickled_obj = pickle.dumps(rv)
-                print(pickled_obj)
+                print(f'Pickled object is:\n   {pickled_obj}',
+                       '\n\nSending pickled object back to the client now...\n\n'
+                       '######################################################\n')
                 return pickled_obj
 
 

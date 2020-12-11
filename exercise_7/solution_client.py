@@ -56,6 +56,8 @@ class RunClient(object):
 
         if str.lower(self.argv_list[0]) != 'bye':
             pickled_object = client.recv(4096)
+            print(f'\n  Pickled_object is: {pickled_object}')
+            print('  Pickled Object type:', type(pickled_object))
             unpickled_object = pickle.loads(pickled_object)
             print('\n  Unpickled Object type:', type(unpickled_object))
             print(f'  Unpickled Object: {unpickled_object}\n')
