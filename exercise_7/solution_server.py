@@ -77,12 +77,15 @@ class RunServer(object):
                 temp_str = ''
                 func_name = ''
 
-        print('\nServer calling class method (function) with arg as follows:\n'
-              #f'   {command_dict[function_name]}({function_arg})')
-              f'   {function_name}({arg})')
+        print('\nServer exec\'ing function scraped from local file with the '
+              'arg \npassed in a dict using \'locals\' built-in as follows:\n'
+              f'\n   {function_name}({arg})')
 
         for key, value in command_dict.items():
             if function_name == key:
+                print(f'\nScript stored in dict as string is:\n'
+                      f'**************************************\n{value}'
+                      '**************************************\n')
                 old_stdout = sys.stdout
                 redirected_output = sys.stdout = StringIO()
                 exec(value, {}, {'arg': arg})
