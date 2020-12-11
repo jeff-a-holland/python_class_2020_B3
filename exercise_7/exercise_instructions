@@ -1,0 +1,9 @@
+This week, we're going to make our server more flexible, by defining the functions
+at runtime.  That is: When the server program starts up, it looks in the current
+directory for files whose names look like "server_func*.py".  Each such file
+contains one or more Python function definitions.
+
+The server program should iterate over each of these files, turning each of the
+files' function definitions into a key-value pair in our "actions" dictionary.
+Then, when the client's request comes in, the names of the functions will be
+defined by whatever files were available at server startup time.
