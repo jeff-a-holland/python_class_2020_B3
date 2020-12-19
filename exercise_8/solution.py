@@ -57,8 +57,7 @@ def main():
         max = series.max()
         std = series.std()
         sum = series.sum()
-        sum_in_seconds = series.sum() * 60
-        sum_formatted = time.strftime('%H:%M:%S', time.gmtime(sum_in_seconds))
+        sum_formatted = time.strftime('%H:%M:%S', time.gmtime(sum * 60))
 
 
         print(f'\nPandas Series is:\n\n{series}\n')
