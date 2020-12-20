@@ -30,7 +30,7 @@ class AnalyzeVideo(object):
             video = cv2.VideoCapture(value)
             fps = video.get(cv2.CAP_PROP_FPS)
             frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-            video_duration =float( "{:.2f}".format((frames/fps)/60))
+            video_duration = float( "{:.2f}".format((frames/fps)/60))
             print(f'File "{value}" has length: {video_duration}min')
             AnalyzeVideo.video_duration_list.append(video_duration)
         video_duration_series = pandas.Series(AnalyzeVideo.video_duration_list)
