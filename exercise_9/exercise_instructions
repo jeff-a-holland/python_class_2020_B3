@@ -1,0 +1,10 @@
+This week, we're going to implement our own, very simple version of "mypy",
+which I call "mymypy".  This will not be a static code analyzer. Rather, it'll
+work at runtime, via a decorator.
+
+We can apply the "mymypy" decorator to a function, passing it a list of valid
+types.  For example:
+
+    @mymypy([int, int])
+    def mul(a,b):
+        return a*b

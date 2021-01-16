@@ -1,0 +1,41 @@
+This week, we're going to experiment with creating a program that takes user
+input from the command line.  To do this, we're going to use the "cmd" module,
+part of the Python standard library.
+
+The idea is that you'll use "cmd" to build a program that implements a simple
+calculator.  Let's assume that the calculator's inputs will only be positive
+integers; negative numbers and floats can be thrown out.  (This will make the
+filtering of inputs a bit easier.)
+
+Upon running the program, the user will be presented with a command prompt.
+The possible commands are:
+    add
+    sub
+    mul
+    div
+
+But it's not enough to enter a command.  You'll enter a command, followed by
+one or more integers separated by spaces.  Thus, if you write:  add 1 2 3
+the system will print "6" on the screen.
+
+And if you write:  sub 10 5 3
+the system will print "2" on the screen.
+
+Anything that isn't a positive integer can be ignored.
+Thus:  add 1 abc 2.3 -4 2 3
+will also print "6" on the screen.
+
+Now let's add an additional twist: I'd like to be able to enter my calculations
+not only as words, but also as symbols.  Thus, I'd like to be able to say:
+    + 1 2 3
+    - 10 5 3
+    * 1 2 3
+    / 10 4
+
+Using the symbols will be equivalent to using the words.
+
+You can exit from the calculator either by entering EOF (the default way that
+"cmd" expects people to exit, because everyone knows that "EOF" means "end of
+file," and that stdin is just another file).  If you want to create a "quit"
+command to coddle your users who aren't Unix-heads, then I'll grudgingly accept
+that.
