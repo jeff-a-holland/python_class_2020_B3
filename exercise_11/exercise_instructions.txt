@@ -1,0 +1,27 @@
+This week, we'll experiment with a feature that was added in Python 3.4, and
+which can be useful in a number of situations: Enums.
+
+Enums are a form of symbol that we can use in our programming; they can look and
+feel like strings, or other named values, but are effectively integers. In other
+words, they're readable like strings, but efficient like ints.  Which isn't
+exactly true in Python, given that Python ints aren't that tiny -- but Enums do
+make it easier to create restricted vocabularies in our programs.
+
+You can read more about Python's enums here, in the PEP that was eventually
+accepted, and in a tutorial on the Python site:
+
+    https://www.python.org/dev/peps/pep-0435/
+
+    https://docs.python.org/3/library/enum.html
+
+This week, we'll use Enums to create a deck of cards. You'll create one Enum
+class called CardSuit, which will have four values (hearts, diamonds, clubs, and
+spades) and CardValue, which will have 13 values (ace through king).
+
+Using these two Enums, you should create a deck of 52 cards (4 suits * 13 values),
+in which each instance of Card has both a suit and a value.  Then you'll choose
+five random cards from the deck, creating a hand (a Python list). When printed,
+the list should look like this:
+    [4 of HEARTS, 2 of SPADES, 11 of DIAMONDS, 6 of DIAMONDS, 2 of DIAMONDS]
+
+If you can get the cards to sort, first by suit and then by value, all the better!
